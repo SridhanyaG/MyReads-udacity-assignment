@@ -1,0 +1,15 @@
+.bookimg {
+  height: 188px;
+  width: 128px;
+}
+.bookmenu {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.book .bookmenu {
+  border-radius: 30px;
+}
+.dropdown-item {
+  cursor: pointer;
+}
