@@ -18,19 +18,26 @@ class SearchBooks extends Component {
   };
   
   getBooks = event => {
-    const query = event.target.value;
-    this.setState({ query });
-
-    // if user input => run the search
-    if (query) {
-      BooksAPI.search(query.trim(), 20).then(books => {
-        books.length > 0
-          ? this.setState({ newBooks: books,  error: false })
-          : this.setState({ newBooks: [],  error: true });
-      });
-
-      // if query is empty => reset state to default
-    } else this.setState({ newBooks: [],  error: false });
+    const query = event.target.value
+    // Below call is async
+    this.setState({ query: query })
+    let self = this
+    // debounce time to optimize
+    setTimeout(function(){ 
+      // if user input => run the search
+      if (query && query === self.state.query) {
+        BooksAPI.search(query.trim(), 20).then(books => {
+            debugger
+            books.length > 0
+            ? self.setState({ newBooks: books,  error: false })
+            : self.setState({ newBooks: [],  error: true });
+        });
+  
+        // if query is empty => reset state to default
+      } else self.setState({ newBooks: [],  error: false });
+     }, 2000)
+    
+   
   };
 
   render() {

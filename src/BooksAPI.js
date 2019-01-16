@@ -20,7 +20,9 @@ export const get = (bookId) =>
 export const getAll = () =>
   fetch(`${api}/books`, { headers })
     .then(res => res.json())
-    .then(data => data.books)
+    .then(data =>{
+      return data.books
+    })
 
 export const update = (book, shelf) =>
   fetch(`${api}/books/${book.id}`, {
@@ -41,4 +43,12 @@ export const search = (query) =>
     },
     body: JSON.stringify({ query })
   }).then(res => res.json())
-    .then(data => data.books)
+    .then(data => {
+      let tempMap = data.books.map((book) =>  {
+        if (book.shelf === undefined) { 
+          book.shelf = 'none'
+        }
+        return book
+      })
+      return tempMap
+    })
