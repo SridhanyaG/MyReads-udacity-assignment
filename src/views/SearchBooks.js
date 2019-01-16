@@ -27,7 +27,6 @@ class SearchBooks extends Component {
       // if user input => run the search
       if (query && query === self.state.query) {
         BooksAPI.search(query.trim(), 20).then(books => {
-            debugger
             books.length > 0
             ? self.setState({ newBooks: books,  error: false })
             : self.setState({ newBooks: [],  error: true });
