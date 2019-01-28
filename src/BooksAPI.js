@@ -44,6 +44,9 @@ export const search = (query) =>
     body: JSON.stringify({ query })
   }).then(res => res.json())
     .then(data => {
+      if (data.books.error  !== null && data.books.error  !== undefined) {
+        return [] // Empty List
+      }
       let tempMap = data.books.map((book) =>  {
         if (book.shelf === undefined) { 
           book.shelf = 'none'

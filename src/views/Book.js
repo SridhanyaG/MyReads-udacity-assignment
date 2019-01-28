@@ -20,6 +20,7 @@ class Book extends Component {
   }
   render() {
     let book = this.props.book
+    let authorName = (book.authors!== undefined && book.authors!== null) ? book.authors.join(",") : 'No Author'
     let imgLink = book.imageLinks === undefined ? require('../images/no_thumb.jpg') : book.imageLinks.thumbnail
     let bookTitle = book.title ? book.title : 'No title available';
     let currentlyReadingClassName = this.deriveShelfStateForBook(book.shelf, 'currentlyReading')
@@ -30,7 +31,6 @@ class Book extends Component {
       <div className="col-md-2 col-md-offset-1">
         <div className="col-12 book">
           <img className='bookimg' src={imgLink} alt=""/>
-          <h4>{book.author}</h4>
           <button type="button" className="bookmenu btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
           </button>
           <div className="dropdown-menu">
@@ -41,7 +41,8 @@ class Book extends Component {
             <span role='button' className={noneClassName}  onClick={this.groupSelected} data-selected='none'>None</span>
           </div>
         </div>
-        <div>{bookTitle}</div>
+        <h5>{bookTitle}</h5>
+        <div className="text-muted">{authorName}</div>
       </div>
     )
   }

@@ -27,6 +27,13 @@ class SearchBooks extends Component {
       // if user input => run the search
       if (query && query === self.state.query) {
         BooksAPI.search(query.trim(), 20).then(books => {
+            // Update the Book shelf accordingly
+            for (let fetchedBooks of books) {
+            for (let existingBookInShelf of self.props.books) {
+              if (fetchedBooks.title === existingBookInShelf.title) {
+                fetchedBooks.shelf = existingBookInShelf.shelf
+              }
+            }}
             books.length > 0
             ? self.setState({ newBooks: books,  error: false })
             : self.setState({ newBooks: [],  error: true });
@@ -41,6 +48,10 @@ class SearchBooks extends Component {
 
   render() {
     const books  = this.state.newBooks;
+    let emptyList = ""
+    if (books.length < 1) {
+      emptyList = "Empty Books List"
+    }
     return (
       <div>
         <div className="input-group mb-3  input-group-lg">
@@ -51,6 +62,7 @@ class SearchBooks extends Component {
           <input type="text" className="form-control" placeholder="Username" 
           aria-label="Username" aria-describedby="basic-addon1" onChange={this.getBooks} />
         </div>
+        <h1 className="text-danger">{emptyList}</h1>
         <section className="d-flex d-flex-row flex-wrap">
         {
           books.map((book)=> (
